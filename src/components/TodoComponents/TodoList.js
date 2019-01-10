@@ -15,6 +15,7 @@ const ToDos = props => {
             key={toDo.id}
             motherID={toDo.id}
             isCompleted={toDo.completed}
+            item="item"
           />
         );
       })}

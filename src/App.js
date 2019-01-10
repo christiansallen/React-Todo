@@ -1,6 +1,7 @@
 import React from "react";
 import ToDos from "./components/TodoComponents/TodoList";
 import ToDoForm from "./components/TodoComponents/TodoForm";
+import "./components/TodoComponents/Todo.css";
 
 const ToDoList = [
   {
@@ -28,16 +29,24 @@ class App extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  completed = (e, id) => {
-    const complete = this.state.toDoList.filter(toDo => toDo.id === id);
-    complete.map(todo => (todo.completed = !todo.completed));
+  completed = id => {
     this.setState({
-      toDoList: [...this.state.toDoList, complete]
+      toDoList: this.state.toDoList.map(todo => {
+        if (id !== todo.id) {
+          return todo;
+        } else {
+          return {
+            ...todo,
+            completed: !todo.completed
+          };
+        }
+      })
     });
   };
 
   addToDo = e => {
     e.preventDefault();
+    if (this.state.toDoItem.length === 0) return;
     this.setState({
       toDoList: [
         ...this.state.toDoList,
@@ -60,6 +69,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <h1 className="header">ToDo List</h1>
         <ToDos ToDoList={this.state.toDoList} completed={this.completed} />
         <ToDoForm
           change={this.change}
